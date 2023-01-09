@@ -14,8 +14,8 @@
 	</queue>
 
 	<queuePlacementPolicy>
-		<rule name="specified" create="false" />
-		<rule name="primaryGroup" create="false" />
-		<rule name="defualt" queue="dev.eng" />
+		<rule name="specified" create="false" /> <!-- 지정된 큐에 애플리케이션 배치 -->
+		<rule name="primaryGroup" create="false" /> <!-- 유닉스 그룹의 이름을 가진 큐에 애플리케이션 배치 -->
+		<rule name="defualt" queue="dev.eng" /> <!-- 항상 dev.eng 큐에 애플리케이션 배치 -->
 	</queuePlacementPolicy>
 </allocations>
