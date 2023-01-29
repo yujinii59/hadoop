@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
+<?xml version="1.0"?>
 <configuration>
 
     <property>
         <name>fs.defaultFS</name>
-        <value>hdfs://namenode/</value>
+        <value>hdfs://namenode:4453/</value>
     </property>
 
     <property>
