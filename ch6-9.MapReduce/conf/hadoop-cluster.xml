@@ -3,7 +3,7 @@
 
     <property>
         <name>fs.defaultFS</name>
-        <value>hdfs://namenode:4453/</value>
+        <value>hdfs://namenode/</value>
     </property>
 
     <property>
