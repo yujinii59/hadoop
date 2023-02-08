@@ -1,47 +1,33 @@
-package dev;
+package types;
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-public class MaxTemperatureDriver extends Configured implements Tool {
+public class MinimalMapReduce extends Configured implements Tool {
+    // mapper와 reducer 설정하지 않고 mapreduce 실행
 
     @Override
     public int run(String[] args) throws Exception {
-        if (args.length !=2){
+        if(args.length != 2) {
             System.err.printf("Usage: %s [generic options] <input> <output>\n", getClass().getSimpleName());
             ToolRunner.printGenericCommandUsage(System.err);
             return -1;
         }
 
-        Job job = new Job(getConf(), "Max temperature");
+        Job job = new Job(getConf());
         job.setJarByClass(getClass());
-
-        Path outputPath = new Path(args[1]);
-        outputPath.getFileSystem(getConf()).delete(outputPath, true);
-
         FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, outputPath);
-
-
-        job.setMapperClass(MaxTemperatureMapper_v3.class);
-        job.setCombinerClass(MaxTemperatureReducer.class);
-        job.setReducerClass(MaxTemperatureReducer.class);
-
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
-
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
         return job.waitForCompletion(true) ? 0 : 1;
     }
 
     public static void main(String[] args) throws Exception {
-        int exitCode = ToolRunner.run(new MaxTemperatureDriver(), args);
+        int exitCode = ToolRunner.run(new MinimalMapReduce(), args);
         System.exit(exitCode);
     }
 }
