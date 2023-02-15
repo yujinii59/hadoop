@@ -43,7 +43,11 @@ public class JobBuilder {
         Job job = new Job(conf);
         job.setJarByClass(tool.getClass());
         FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        Path outputPath = new Path(args[1]);
+        // outputPath 존재 시 삭제
+        outputPath.getFileSystem(conf).delete(outputPath, true);
+        FileOutputFormat.setOutputPath(job, outputPath);
+
         return job;
     }
 
