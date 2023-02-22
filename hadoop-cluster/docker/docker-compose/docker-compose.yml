@@ -1,0 +1,93 @@
+version: '2'
+services:
+
+  master01:
+    container_name: master01
+    image: hadoop-base:latest
+    restart: on-failure
+    hostname: master01
+    ports:
+      - "9870:9870"
+      - "8088:8088"
+    privileged: true
+    stdin_open: true       
+    tty: true             
+    volumes:
+      - "~/src/study/Hadoop/hadoop-cluster/conf:/user/conf"
+      - "~/src/study/Hadoop/hadoop-cluster/data:/user/data"
+      - "~/src/study/Hadoop/hadoop-cluster/files:/user/files"
+    extra_hosts:
+      - "master02:172.18.0.3"
+      - "slave01:172.18.0.4"
+      - "slave02:172.18.0.5"
+      - "slave03:172.18.0.6"
+
+  master02:
+    container_name: master02
+    image: hadoop-base:latest
+    restart: on-failure
+    hostname: master02
+    depends_on:
+      - master01
+    privileged: true
+    stdin_open: true       
+    tty: true   
+    extra_hosts:
+      - "master01:172.18.0.2"
+      - "slave01:172.18.0.4"
+      - "slave02:172.18.0.5"
+      - "slave03:172.18.0.6"          
+
+  slave01:
+    container_name: slave01
+    image: hadoop-base:latest
+    restart: on-failure
+    hostname: slave01
+    depends_on:
+      - master01
+      - master02
+    privileged: true
+    stdin_open: true       
+    tty: true        
+    extra_hosts:
+      - "master01:172.18.0.2"
+      - "master02:172.18.0.3"
+      - "slave02:172.18.0.5"
+      - "slave03:172.18.0.6"     
+
+  slave02:
+    container_name: slave02
+    image: hadoop-base:latest
+    restart: on-failure
+    hostname: slave02
+    depends_on:
+      - master01
+      - master02
+      - slave01
+    privileged: true
+    stdin_open: true       
+    tty: true       
+    extra_hosts:
+      - "master01:172.18.0.2"
+      - "master02:172.18.0.3"
+      - "slave01:172.18.0.4"
+      - "slave03:172.18.0.6"  
+
+  slave03:
+    container_name: slave03
+    image: hadoop-base:latest
+    restart: on-failure
+    hostname: slave03
+    depends_on:
+      - master01
+      - master02
+      - slave01
+      - slave02
+    privileged: true
+    stdin_open: true       
+    tty: true          
+    extra_hosts:
+      - "master01:172.18.0.2"
+      - "master02:172.18.0.3"
+      - "slave01:172.18.0.4"
+      - "slave02:172.18.0.5" 
