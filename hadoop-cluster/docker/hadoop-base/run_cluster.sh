@@ -1,5 +1,5 @@
-RUN docker build -t hadoop-base
+docker build -t hadoop-base
 	
-WORKDIR ../docker-compose
+cd ../docker-compose
 
-RUN docker-compose up -d
+docker-compose up -d
