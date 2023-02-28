@@ -1,11 +1,11 @@
 version: '2'
 services:
 
-  master01:
-    container_name: master01
-    image: hadoop-base:latest
+  master-1:
+    container_name: master-1
+    image: hadoop-base-image:latest
     restart: on-failure
-    hostname: master01
+    hostname: master-1
     ports:
       - "9870:9870"
       - "8088:8088"
@@ -17,77 +17,77 @@ services:
       - "~/src/study/Hadoop/hadoop-cluster/data:/user/data"
       - "~/src/study/Hadoop/hadoop-cluster/files:/user/files"
     extra_hosts:
-      - "master02:172.18.0.3"
-      - "slave01:172.18.0.4"
-      - "slave02:172.18.0.5"
-      - "slave03:172.18.0.6"
+      - "master-2:172.20.0.3"
+      - "slave-1:172.20.0.4"
+      - "slave-2:172.20.0.5"
+      - "slave-3:172.20.0.6"
 
-  master02:
-    container_name: master02
-    image: hadoop-base:latest
+  master-2:
+    container_name: master-2
+    image: hadoop-base-image:latest
     restart: on-failure
-    hostname: master02
+    hostname: master-2
     depends_on:
-      - master01
+      - master-1
     privileged: true
     stdin_open: true       
     tty: true   
     extra_hosts:
-      - "master01:172.18.0.2"
-      - "slave01:172.18.0.4"
-      - "slave02:172.18.0.5"
-      - "slave03:172.18.0.6"          
+      - "master-1:172.20.0.2"
+      - "slave-1:172.20.0.4"
+      - "slave-2:172.20.0.5"
+      - "slave-3:172.20.0.6"          
 
-  slave01:
-    container_name: slave01
-    image: hadoop-base:latest
+  slave-1:
+    container_name: slave-1
+    image: hadoop-base-image:latest
     restart: on-failure
-    hostname: slave01
+    hostname: slave-1
     depends_on:
-      - master01
-      - master02
+      - master-1
+      - master-2
     privileged: true
     stdin_open: true       
     tty: true        
     extra_hosts:
-      - "master01:172.18.0.2"
-      - "master02:172.18.0.3"
-      - "slave02:172.18.0.5"
-      - "slave03:172.18.0.6"     
+      - "master-1:172.20.0.2"
+      - "master-2:172.20.0.3"
+      - "slave-2:172.20.0.5"
+      - "slave-3:172.20.0.6"     
 
-  slave02:
-    container_name: slave02
-    image: hadoop-base:latest
+  slave-2:
+    container_name: slave-2
+    image: hadoop-base-image:latest
     restart: on-failure
-    hostname: slave02
+    hostname: slave-2
     depends_on:
-      - master01
-      - master02
-      - slave01
+      - master-1
+      - master-2
+      - slave-1
     privileged: true
     stdin_open: true       
     tty: true       
     extra_hosts:
-      - "master01:172.18.0.2"
-      - "master02:172.18.0.3"
-      - "slave01:172.18.0.4"
-      - "slave03:172.18.0.6"  
+      - "master-1:172.20.0.2"
+      - "master-2:172.20.0.3"
+      - "slave-1:172.20.0.4"
+      - "slave-3:172.20.0.6"  
 
-  slave03:
-    container_name: slave03
-    image: hadoop-base:latest
+  slave-3:
+    container_name: slave-3
+    image: hadoop-base-image:latest
     restart: on-failure
-    hostname: slave03
+    hostname: slave-3
     depends_on:
-      - master01
-      - master02
-      - slave01
-      - slave02
+      - master-1
+      - master-2
+      - slave-1
+      - slave-2
     privileged: true
     stdin_open: true       
     tty: true          
     extra_hosts:
-      - "master01:172.18.0.2"
-      - "master02:172.18.0.3"
-      - "slave01:172.18.0.4"
-      - "slave02:172.18.0.5" 
+      - "master-1:172.20.0.2"
+      - "master-2:172.20.0.3"
+      - "slave-1:172.20.0.4"
+      - "slave-2:172.20.0.5" 

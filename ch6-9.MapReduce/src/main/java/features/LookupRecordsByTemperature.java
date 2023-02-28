@@ -19,7 +19,7 @@ public class LookupRecordsByTemperature extends Configured implements Tool {
     public int run(String[] args) throws Exception {
         if (args.length != 2) {
             JobBuilder.printUsage(this, "<path> <key>");
-            return -1
+            return -1;
         }
         Path path = new Path(args[0]);
         IntWritable key = new IntWritable(Integer.parseInt(args[1]));

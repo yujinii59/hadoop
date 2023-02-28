@@ -1,4 +1,4 @@
-docker build -t hadoop-base
+docker build -t hadoop-base-image .
 	
 cd ../docker-compose
 
